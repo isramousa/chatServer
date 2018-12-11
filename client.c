@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
    char buffer[MAXRCVLEN + 1]; /* +1 so we can add null terminator */
    int  mysocket,choice,num,numbers;
    struct sockaddr_in dest; 
-   char messageSent[250];
-   char messageRecd[250];
+   char messageSent[1024];
+   char messageRecd[1024];
 
    mysocket = socket(AF_INET, SOCK_STREAM, 0);
   
@@ -34,19 +34,36 @@ int main(int argc, char *argv[])
 
     while(1)
    { 
-	printf("enter the message\n");
-	fgets(messageSent,sizeof(messageSent),stdin);
-	if((send(mysocket,messageSent,strlen(messageSent),0))==-1) {
-		printf("Failure sending message!\n");
-		close(mysocket);
-		exit(1);
-	}
-	if(num = recv(mysocket,messageRecd, sizeof(messageRecd),0) < 0 ){
-		printf("error in connection\n");
-		break;
-	}
+		printf("Enter the number to make an operation\n");
+        printf("1. send data to server\n");
+        printf("2. read data from server\n");
+		printf("3. close connection\n");
 
-	printf("message recived from server: %s\n",messageRecd);	
+        scanf("%d",&choice);
+	switch(choice)
+	{
+		case 1:
+			printf("enter the message\n");
+			//fgets(messageSent,sizeof(messageSent),stdin);
+			scanf("%s", messageSent);
+			if((send(mysocket,messageSent,strlen(messageSent),0))==-1) {
+				printf("Failure sending message!\n");
+				close(mysocket);
+				exit(1);
+			}
+			break;
+		case 2:
+			if(num = recv(mysocket,messageRecd, sizeof(messageRecd),0) < 0 ){
+				printf("error in connection\n");
+				break;
+			}
+			printf("message recived from server: %s\n",messageRecd);
+			break;
+		case 3:
+			close(mysocket);
+			exit(0);
+			break;
+	}	
 }
     /*while(1){
 	printf("Enter the number to make an operation\n");
@@ -82,9 +99,6 @@ int main(int argc, char *argv[])
 			break;		
 		
 		case  2 :
-			close(mysocket);
-			exit(0);
-			break;
 		default: 
 			close(mysocket);
 			exit(0);
