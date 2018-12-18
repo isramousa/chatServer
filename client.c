@@ -45,15 +45,17 @@ void* sendDataThread(void* args)
 }
 
 void* recvDataThread(void* args)
-{
+{	
+	int num;
         char messageRecd[MAX_LEN];
 	int mysocket = *((int *)args);
 	while(1){
-		
-		if(recv(mysocket,messageRecd, sizeof(messageRecd),0) < 0 ){
+
+		if((num=recv(mysocket,messageRecd, sizeof(messageRecd),0)) < 0 ){
 			printf("error in connection\n");
 			break;
 		}
+		messageRecd[num]='\0';
 		printf("message recived from server: %s\n",messageRecd);
 		messageRecd[0]='\0';
 	}
