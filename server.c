@@ -143,7 +143,7 @@ int main(int argc , char *argv[])
 				
 			if (FD_ISSET( sd , &readfds)) 
 			{ 
-		
+				buffer[0] = '\0'; 
 				if ((valread = read( sd , buffer, 1024)) == 0) 
 				{ 
 					//Somebody disconnected , get his details and print 
