@@ -49,11 +49,13 @@ void* recvDataThread(void* args)
         char messageRecd[MAX_LEN];
 	int mysocket = *((int *)args);
 	while(1){
+		
 		if(recv(mysocket,messageRecd, sizeof(messageRecd),0) < 0 ){
 			printf("error in connection\n");
 			break;
 		}
-		printf("message recived from server:\n %s",messageRecd);
+		printf("message recived from server: %s\n",messageRecd);
+		messageRecd[0]='\0';
 	}
 
 }
