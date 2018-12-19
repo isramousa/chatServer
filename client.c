@@ -27,14 +27,14 @@ void* sendDataThread(void* args)
 	char message[MAX_LEN - 24];
 	char *clientName = ((struct argsSend*)args)->name;
 	int mysocket = ((struct argsSend*)args)->socketNumber;
+
 	while(1){
-	messageSent[0]='\0';
-	message[0]='\0';
-	printf("Enter the msg you want to send:\n");
-	fgets(message, 1000, stdin);
-	//scanf("%s", message);
-	strcat(messageSent,clientName);
-	strcat(messageSent,message);
+		messageSent[0]='\0';
+		message[0]='\0';
+		printf("Enter the msg you want to send:\n");
+		fgets(message, 1000, stdin);
+		strcat(messageSent,clientName);
+		strcat(messageSent,message);
 
 		if((send(mysocket,messageSent,strlen(messageSent),0))==-1) {
 			printf("Failure sending message!\n");
